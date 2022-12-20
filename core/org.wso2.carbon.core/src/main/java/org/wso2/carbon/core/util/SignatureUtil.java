@@ -33,14 +33,18 @@ public class SignatureUtil {
     private static final String THUMB_DIGEST_ALGORITHM = "SHA-1";
 
     private static String signatureAlgorithm = "SHA1withRSA";
-    private static String provider = "BC";
+    private static String provider = "BCFIPS";
 
     private SignatureUtil() {
         // hide default constructor for utility class
     }
 
     public static void init() throws Exception {
-        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+//        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        // Add provider from the system property
+        String providerClassName = System.getProperty("providerClass");
+        Provider provider = (Provider) (Class.forName(providerClassName)).newInstance();
+        Security.addProvider(provider);
     }
 
     /**

@@ -50,7 +50,7 @@ public class CryptoUtil {
 
     private static final String DEFAULT_CRYPTO_ALGORITHM = "RSA";
 
-    private static final String CRYPTO_API_PROVIDER_BC = "BC";
+    private static final String CRYPTO_API_PROVIDER_BC = "BCFIPS";
 
     /**
      * This method returns CryptoUtil object, where this should only be used at runtime,

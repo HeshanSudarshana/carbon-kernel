@@ -81,7 +81,7 @@ public class UserStoreConfigXMLProcessor {
     private SecretResolver secretResolver;
     private String filePath = null;
     private Gson gson = new Gson();
-    private static final String CRYPTO_API_PROVIDER_BC = "BC";
+    private static final String CRYPTO_API_PROVIDER_BC = "BCFIPS";
     private static final String ENCRYPTION_KEYSTORE = "Security.UserStorePasswordEncryption";
     private static final String INTERNAL_KEYSTORE = "InternalKeystore";
     private static final String CRYPTO_PROVIDER = "CryptoService.InternalCryptoProviderClassName";
@@ -524,14 +524,14 @@ public class UserStoreConfigXMLProcessor {
                         log.debug("Cipher transformation for decryption : " + cipherHolder.getTransformation());
                     }
 
-                    keyStoreCipher = Cipher.getInstance(cipherHolder.getTransformation(), "BC");
+                    keyStoreCipher = Cipher.getInstance(cipherHolder.getTransformation(), CRYPTO_API_PROVIDER_BC);
 
                     cipherTextBytes = cipherHolder.getCipherBase64Decoded();
                 } else {
                     // If the ciphertext is not a self-contained, directly decrypt using transformation configured in
                     // carbon.properties file
 
-                    keyStoreCipher = Cipher.getInstance(cipherTransformation, "BC");
+                    keyStoreCipher = Cipher.getInstance(cipherTransformation, CRYPTO_API_PROVIDER_BC);
 
                 }
             } else {
@@ -541,7 +541,7 @@ public class UserStoreConfigXMLProcessor {
                     log.debug("Cipher transformation property is not available.Hence RSA is considered as default " +
                             "cipher transformation.");
                 }
-                keyStoreCipher = Cipher.getInstance("RSA", "BC");
+                keyStoreCipher = Cipher.getInstance("RSA", CRYPTO_API_PROVIDER_BC);
 
             }
 

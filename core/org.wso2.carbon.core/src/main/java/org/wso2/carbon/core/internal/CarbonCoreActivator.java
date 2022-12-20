@@ -17,7 +17,7 @@ package org.wso2.carbon.core.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+//import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
@@ -25,6 +25,7 @@ import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
 
 import java.io.File;
 import java.lang.management.ManagementPermission;
+import java.security.Provider;
 import java.security.Security;
 
 /**
@@ -69,7 +70,11 @@ public class CarbonCoreActivator implements BundleActivator {
                  System.getProperty("user.language") + "-" + System.getProperty("user.country") +
                  ", " + System.getProperty("user.timezone"));
 
-        Security.addProvider(new BouncyCastleProvider());
+//        Security.addProvider(new BouncyCastleProvider());
+        // Add provider from the system property
+        String providerClassName = System.getProperty("providerClass");
+        Provider provider = (Provider) (Class.forName(providerClassName)).newInstance();
+        Security.addProvider(provider);
         if(log.isDebugEnabled()){
             log.debug("BouncyCastle security provider is successfully registered in JVM.");
         }
